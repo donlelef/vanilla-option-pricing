@@ -5,5 +5,7 @@ python:
 install:
 - python setup.py install
 - pip install coverage
+- pip install coveralls
 script:
 - nosetests -v --with-coverage --cover-tests --cover-package=vanilla_option_pricing
+- coveralls
