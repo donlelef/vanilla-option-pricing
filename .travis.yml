@@ -1,0 +1,10 @@
+language: python
+sudo: false
+python:
+- 3.6
+- 3.7
+install:
+- python setup.py install
+- pip install coverage
+script:
+- nosetests -v --with-coverage --cover-tests --cover-package=vanilla_option_pricing
