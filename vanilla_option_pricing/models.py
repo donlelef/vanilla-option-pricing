@@ -3,7 +3,7 @@ import abc
 import numpy as np
 from scipy import linalg as la
 
-from vanilla_option_pricing.models.option_pricing import OptionPricingModel
+from vanilla_option_pricing.option_pricing import OptionPricingModel
 
 
 class PossiblePricingModel(abc.ABC):

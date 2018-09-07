@@ -3,7 +3,7 @@ from unittest import TestCase
 
 import numpy as np
 
-from vanilla_option_pricing.models.models import LogMeanRevertingToGeneralisedWienerProcess, OrnsteinUhlenbeck, \
+from vanilla_option_pricing.models import LogMeanRevertingToGeneralisedWienerProcess, OrnsteinUhlenbeck, \
     BlackScholes, NumericalLogMeanRevertingToGeneralisedWienerProcess, NumericalModel
 from vanilla_option_pricing.option import VanillaOption
 

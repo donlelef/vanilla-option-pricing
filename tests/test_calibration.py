@@ -4,7 +4,7 @@ from unittest import TestCase
 import pandas as pd
 
 from vanilla_option_pricing.calibration import ModelCalibration
-from vanilla_option_pricing.models.models import BlackScholes
+from vanilla_option_pricing.models import BlackScholes
 from vanilla_option_pricing.option import VanillaOption
 
 
