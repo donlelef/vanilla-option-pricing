@@ -16,7 +16,7 @@ class TestModelCalibration(TestCase):
         self.options = [VanillaOption(**r) for r in data_set.to_dict(orient='record')]
 
     def test_calibrate_black_model(self):
-        calibrator = ModelCalibration(self.options, BlackScholes(0.31408317454633633).as_option_pricing_model())
-        res, model = calibrator.calibrate_model()
+        calibrator = ModelCalibration(self.options)
+        res, model = calibrator.calibrate_model(BlackScholes(0.31408317454633633).as_option_pricing_model())
         self.assertAlmostEqual(res.x[0], 0.26914529578104857, places=5)
         self.assertAlmostEqual(model.model.s, 0.26914529578104857, places=5)
