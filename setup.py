@@ -1,8 +1,10 @@
 from setuptools import setup, find_packages
 
+from docs.conf import version
+
 setup(
     name='vanilla_option_pricing',
-    version='0.0.4',
+    version=version,
     packages=find_packages(),
     url='',
     license='MIT',
