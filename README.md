@@ -55,10 +55,13 @@ data_set = [
     VanillaOption('TTF', 'p', date(2018, 1, 1), 2, 98, 100, date(2018, 2, 1)),
     VanillaOption('TTF', 'c', date(2018, 1, 1), 5, 101, 100, date(2018, 5, 31))
 ]
+
 for o in data_set:
     print(f'Implied volatility: {o.implied_volatility_of_undiscounted_price}')
+
 model = BlackScholes(0.2).as_option_pricing_model()
 calibration = ModelCalibration(data_set)
+
 result, trained_model = calibration.calibrate_model(model)
 print(result)
 print(f'Calibrated implied volatility: {trained_model.parameters[0]}') 
