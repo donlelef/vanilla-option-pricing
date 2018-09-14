@@ -3,10 +3,11 @@
 
 .. toctree::
    :maxdepth: 2
-   :caption: Getting started
+   :caption: Quick reference
 
    installing
    getting started
+   models
 
 
 .. toctree::
