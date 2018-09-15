@@ -4,6 +4,10 @@
 [![Documentation Status](https://readthedocs.org/projects/vanilla-option-pricing/badge/?version=latest)](https://vanilla-option-pricing.readthedocs.io/en/latest/?badge=latest)
 
 A simple Python package implementing stochastic models to price financial options.
+Theoretical background and comprehensive explanation of models and their paramenters
+can be found is the paper *Fast calibration of two-factor models for energy option pricing*
+by Emanuele Fabbiani, Andrea Marziali and Giuseppe De Nicolao, available on 
+[arXiv](https://arxiv.org/abs/1809.03941)  
 
 ### Installing
 The preferred way to install the package is using pip,
