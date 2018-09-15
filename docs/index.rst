@@ -8,6 +8,7 @@
    installing
    getting started
    models
+   model calibration
 
 
 .. toctree::

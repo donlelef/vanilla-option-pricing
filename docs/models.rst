@@ -16,9 +16,9 @@ Geometric Brownian motion.
 .. code:: python
 
     from datetime import datetime, timedelta
-    from vanilla_option_princing.option import VanillaOption
-    from vanilla_option_princing.models import BlackScholes
-    from vanilla_option_pricing.calibration import ModelCalibration
+    from vanilla_option_pricing.models import BlackScholes, OrnsteinUhlenbeck, \
+        LogMeanRevertingToGeneralisedWienerProcess
+    from vanilla_option_pricing.option import VanillaOption
 
     option = VanillaOption(spot=100, strike=101, dividend=0,
         date=datetime.today(), maturity=datetime.today() + timedelta(days=30),

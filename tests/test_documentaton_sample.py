@@ -4,7 +4,8 @@ from unittest import TestCase
 import numpy as np
 
 from vanilla_option_pricing.calibration import ModelCalibration
-from vanilla_option_pricing.models import BlackScholes, OrnsteinUhlenbeck, LogMeanRevertingToGeneralisedWienerProcess
+from vanilla_option_pricing.models import BlackScholes, OrnsteinUhlenbeck, \
+    LogMeanRevertingToGeneralisedWienerProcess
 from vanilla_option_pricing.option import VanillaOption
 
 
@@ -55,10 +56,18 @@ class TestVanillaOption(TestCase):
             VanillaOption('TTF', 'p', date(2018, 1, 1), 2, 98, 100, date(2018, 2, 1)),
             VanillaOption('TTF', 'c', date(2018, 1, 1), 5, 101, 100, date(2018, 5, 31))
         ]
-        for o in data_set:
-            print(f'Implied volatility: {o.implied_volatility_of_undiscounted_price}')
-        model = BlackScholes(0.2).as_option_pricing_model()
+
+        models = [
+            BlackScholes(0.2),
+            OrnsteinUhlenbeck(p_0=0, l=100, s=2)
+        ]
         calibration = ModelCalibration(data_set)
-        result, trained_model = calibration.calibrate_model(model)
-        print(result)
-        print(f'Calibrated implied volatility: {trained_model.parameters[0]}')
+
+        print(f'Implied volatilities: {[o.implied_volatility_of_undiscounted_price for o in data_set]}\n')
+
+        for model in models:
+            option_pricing_model = model.as_option_pricing_model()
+            result, trained_model = calibration.calibrate_model(option_pricing_model)
+            print('Optimization results:')
+            print(result)
+            print(f'Calibrated parameters: {trained_model.parameters}\n\n')

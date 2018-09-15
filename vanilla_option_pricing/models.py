@@ -12,6 +12,7 @@ class PossiblePricingModel(abc.ABC):
 
 
 class LogMeanRevertingToGeneralisedWienerProcess(PossiblePricingModel):
+    name = 'Numerical Log Mean-Reverting To Generalised Wiener Process'
 
     def __init__(self, p_0: np.matrix, l: float, s_x: float, s_y: float):
         self.p_0 = p_0
@@ -38,6 +39,7 @@ class LogMeanRevertingToGeneralisedWienerProcess(PossiblePricingModel):
 
 
 class OrnsteinUhlenbeck(PossiblePricingModel):
+    name = 'Ornstein-Uhlenbeck'
 
     def __init__(self, p_0: float, l: float, s: float):
         self.p_0 = p_0
@@ -58,6 +60,7 @@ class OrnsteinUhlenbeck(PossiblePricingModel):
 
 
 class BlackScholes(PossiblePricingModel):
+    name = 'Black-Sholes'
 
     def __init__(self, s: float):
         self.s = s
@@ -75,6 +78,7 @@ class BlackScholes(PossiblePricingModel):
 
 
 class NumericalLogMeanRevertingToGeneralisedWienerProcess(PossiblePricingModel):
+    name = 'Numerical Log Mean-Reverting To Generalised Wiener Process'
 
     def __init__(self, p_0: np.matrix, l: float, s_x: float, s_y: float):
         self.p_0 = p_0
