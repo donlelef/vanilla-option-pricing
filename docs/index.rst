@@ -2,7 +2,7 @@
 .. mdinclude:: ../README.md
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
    :caption: Quick reference
 
    installing
@@ -10,12 +10,9 @@
    models
    model calibration
 
+.. include:: modules.rst
 
-.. toctree::
-   :maxdepth: 2
-   :caption: API documentation (TODO)
 
-   modules
 
 
 Indices and tables

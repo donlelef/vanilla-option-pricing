@@ -1,9 +1,6 @@
 vanilla\_option\_pricing package
 ================================
 
-Submodules
-----------
-
 vanilla\_option\_pricing.calibration module
 -------------------------------------------
 
@@ -32,15 +29,6 @@ vanilla\_option\_pricing.option\_pricing module
 -----------------------------------------------
 
 .. automodule:: vanilla_option_pricing.option_pricing
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-
-Module contents
----------------
-
-.. automodule:: vanilla_option_pricing
     :members:
     :undoc-members:
     :show-inheritance:
