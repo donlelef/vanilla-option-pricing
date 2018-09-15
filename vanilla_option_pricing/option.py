@@ -27,9 +27,23 @@ def pandas_dataframe_to_option_list(data_frame: pd.DataFrame):
 
 
 class VanillaOption:
+    """
+    A European vanilla option. All the prices must have consistent unit of measure
+
+    :param instrument: name of the undelying
+    :param option_type: type of the option (c for call, p for put)
+    :param date: the date when the option is traded
+    :param price: option price
+    :param strike: option strike price
+    :param spot: spot price of the underlying
+    :param maturity: the maturity date
+    :param dividend: underlying dividend - if any, expressed as a decimal number
+    """
+
+    """Number of days in a year"""
     DAYS_IN_YEAR = 365.2425
 
-    def __init__(self, instrument: str, option_type, date, price: float, strike: float, spot: float,
+    def __init__(self, instrument: str, option_type: str, date, price: float, strike: float, spot: float,
                  maturity, dividend=0):
         self.instrument = instrument
         self.option_type = option_type.lower()
@@ -42,10 +56,16 @@ class VanillaOption:
 
     @property
     def years_to_maturity(self) -> float:
+        """
+        The years remaining to option maturity, as a decimal number
+        """
         return (self.maturity - self.date).days / self.DAYS_IN_YEAR
 
     @property
     def implied_volatility_of_undiscounted_price(self):
+        """
+        The implied volatility of the option, considering an undisconted price.
+        """
         try:
             return iv.implied_volatility_of_undiscounted_option_price(
                 self.price,
@@ -58,4 +78,7 @@ class VanillaOption:
             return 0
 
     def to_dict(self):
+        """
+        :return: all the fields of the object in a dictionary
+        """
         return {k: v for k, v in vars(self).items() if not k.startswith('_')}
