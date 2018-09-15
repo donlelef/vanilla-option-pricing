@@ -3,7 +3,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/donlelef/vanilla-option-pricing/badge.svg?branch=master)](https://coveralls.io/github/donlelef/vanilla-option-pricing?branch=master)
 [![Documentation Status](https://readthedocs.org/projects/vanilla-option-pricing/badge/?version=latest)](https://vanilla-option-pricing.readthedocs.io/en/latest/?badge=latest)
 
-A simple Python package implementing stochastic models to price financial options.
+A simple Python package implementing stochastic models to price financial options.  
 Theoretical background and comprehensive explanation of models and their paramenters
 can be found is the paper *Fast calibration of two-factor models for energy option pricing*
 by Emanuele Fabbiani, Andrea Marziali and Giuseppe De Nicolao, available on 
