@@ -27,7 +27,7 @@ class ModelCalibration:
                        :attr:`~DEFAULT_PARAMETER_LOWER_BOUND` is applied for all the parameters.
                        Otherwise, a list of tuples (lower_bound, upper_bound) for each parameter shall be specified.
         :return: a tuple (res, model), where res is the result of :func:`~scipy.optimize.minimize`,
-        while res a calibrated model
+                 while res a calibrated model
         """
         if bounds == 'default':
             bounds = ((self.DEFAULT_PARAMETER_LOWER_BOUND, None),) * len(model.parameters)

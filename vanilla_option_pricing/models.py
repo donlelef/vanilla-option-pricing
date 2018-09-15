@@ -8,12 +8,12 @@ from vanilla_option_pricing.option_pricing import OptionPricingModel
 
 class PossiblePricingModel(abc.ABC):
     """
-    A model which can be used to price options, because it exposes the methods required by
-    :class:`~option_pricing.OptionPricingModel`.
+    A model which can be used to price options, because it exposes the methods required by :class:`~option_pricing.OptionPricingModel`.
     """
     def as_option_pricing_model(self):
         """
         Converts the model to as option pricing model, thus providing pricing methods
+
         :return: an :class:`~option_pricing.OptionPricingModel` based on this model
         """
         return OptionPricingModel(self)
@@ -25,7 +25,7 @@ class LogMeanRevertingToGeneralisedWienerProcess(PossiblePricingModel):
     long-term behaviour is given by a Geometric Brownian motion, while the short-term mean-reverting tendency
     is modelled by an Ornstein-Uhlenbeck process.
 
-    :param p_0: the initial variance. Must be a 2x2 numpy matrix
+    :param p_0: the initial variance, that is the variance of the state at time t=0. Must be a 2x2 numpy matrix
     :param l: the strength of mean-reversion
     :param s_x: volatility of the long-term process
     :param s_y: volatility of the short-term process
@@ -67,6 +67,13 @@ class LogMeanRevertingToGeneralisedWienerProcess(PossiblePricingModel):
 
 
 class OrnsteinUhlenbeck(PossiblePricingModel):
+    """
+    The single-factor, mean-reverting Ornstein-Uhlenbeck process.
+
+    :param p_0: the initial variance, that is the variance of the state at time t=0
+    :param l: the strength of the mean-reversion
+    :param s: the volatility
+    """
     name = 'Ornstein-Uhlenbeck'
 
     def __init__(self, p_0: float, l: float, s: float):
@@ -97,6 +104,11 @@ class OrnsteinUhlenbeck(PossiblePricingModel):
 
 
 class BlackScholes(PossiblePricingModel):
+    """
+    The famous Black-Sholes model, basically a Geometric Brownian Motion
+
+    :param s: the volatility
+    """
     name = 'Black-Sholes'
 
     def __init__(self, s: float):
@@ -124,6 +136,18 @@ class BlackScholes(PossiblePricingModel):
 
 
 class NumericalLogMeanRevertingToGeneralisedWienerProcess(PossiblePricingModel):
+    """
+    This model relies on the same stochastic process as :class:`~models.LogMeanRevertingToGeneralisedWienerProcess`,
+    but uses numerical procedures based on matrix exponential instead of closed formulas to compute the variance.
+    As this approach is considerably slower, it is strongly suggested to use
+    :class:`~models.LogMeanRevertingToGeneralisedWienerProcess` instead, using this class only for benchmarking
+
+    :param p_0: the initial variance, that is the variance of the state at time t=0. Must be a 2x2 numpy matrix
+    :param l: the strength of mean-reversion
+    :param s_x: volatility of the long-term process
+    :param s_y: volatility of the short-term process
+    """
+
     name = 'Numerical Log Mean-Reverting To Generalised Wiener Process'
 
     def __init__(self, p_0: np.matrix, l: float, s_x: float, s_y: float):
@@ -164,6 +188,14 @@ class NumericalLogMeanRevertingToGeneralisedWienerProcess(PossiblePricingModel):
 
 
 class NumericalModel:
+    """
+    A general-purpose linear stochastic system. All the parameters must be matrices of suitable dimension
+
+    :param A: the dynamic matrix A of the system
+    :param B: the input matrix B of the system
+    :param p_0: the initial variance, that is the variance of the state at time t=0
+
+    """
 
     def __init__(self, A: np.matrix, B: np.matrix, p_0: np.matrix):
         self.A = A
@@ -172,13 +204,13 @@ class NumericalModel:
 
     @property
     def parameters(self):
+        """
+        Model parameters, as a list of matrices, in the order [A, B].
+        """
         return [self.A, self.B]
 
     @parameters.setter
     def parameters(self, value):
-        """
-        Model parameters, as a list of matrices, in the order [A, B].
-        """
         self.A = value[0]
         self.B = value[0]
 
