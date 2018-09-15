@@ -15,6 +15,7 @@
    :maxdepth: 2
    :caption: API documentation (TODO)
 
+   modules
 
 
 Indices and tables

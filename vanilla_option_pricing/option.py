@@ -4,10 +4,25 @@ from py_vollib.black import implied_volatility as iv
 
 
 def option_list_to_pandas_dataframe(options):
+    """
+    A utility function to convert a list of :class:`~option.VanillaOption` to a pandas dataframe
+
+    :param options: a list of :class:`~option.VanillaOption`
+    :return: a pandas dataframe, containing option data
+    """
+
     return pd.DataFrame.from_records([o.to_dict() for o in options])
 
 
 def pandas_dataframe_to_option_list(data_frame: pd.DataFrame):
+    """
+    A utility function to convert a pandas dataframe to a list of :class:`~option.VanillaOption`.
+    For this function to work, the dataframe columns should be names as the parameters of
+    :class:`~option.VanillaOption`'s constructor
+
+    :param data_frame: a pandas dataframe, containing option data
+    :return: a list of :class:`~option.VanillaOption`
+    """
     return [VanillaOption(**o) for o in data_frame.to_dict(orient='record')]
 
 

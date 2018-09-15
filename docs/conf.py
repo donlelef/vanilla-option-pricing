@@ -24,7 +24,7 @@ copyright = '2018, Emanuele Fabbiani'
 author = 'Emanuele Fabbiani'
 
 # The short X.Y version
-version = '0.0.5'
+version = '0.0.6'
 # The full version, including alpha/beta/rc tags
 release = version
 
@@ -96,6 +96,7 @@ html_theme_options = {
     'display_version': True,
     'prev_next_buttons_location': 'bottom',
     'style_external_links': False,
+
     # Toc options
     'collapse_navigation': True,
     'sticky_navigation': True,

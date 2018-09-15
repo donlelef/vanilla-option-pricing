@@ -3,7 +3,8 @@ Models
 ******
 
 In the context of this package, a model is a stochastic process.
-The package APIs offer a simple way of extracting the variance of the model at a given time instant.
+The package APIs offer a simple way of extracting the variance, the standard deviation and the volatility
+derived from a model at a given time instant.
 A decorator takes care of giving each model option pricing capabilities.
 There are three models currently implemented by this package.
 
