@@ -2,6 +2,7 @@
 [![Build Status](https://travis-ci.org/donlelef/vanilla-option-pricing.svg?branch=master)](https://travis-ci.org/donlelef/vanilla-option-pricing) 
 [![Coverage Status](https://coveralls.io/repos/github/donlelef/vanilla-option-pricing/badge.svg?branch=master)](https://coveralls.io/github/donlelef/vanilla-option-pricing?branch=master)
 [![Documentation Status](https://readthedocs.org/projects/vanilla-option-pricing/badge/?version=latest)](https://vanilla-option-pricing.readthedocs.io/en/latest/?badge=latest)
+[![Downloads](https://pepy.tech/badge/vanilla-option-pricing)](https://pepy.tech/project/vanilla-option-pricing)
 
 A simple Python package implementing stochastic models to price financial options.  
 Theoretical background and comprehensive explanation of models and their paramenters
