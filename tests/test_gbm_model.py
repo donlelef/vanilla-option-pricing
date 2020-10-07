@@ -1,11 +1,11 @@
 from pytest import fixture
 
-from vanilla_option_pricing.models import BlackScholes
+from vanilla_option_pricing.models import GeometricBrownianMotion
 
 
 @fixture
 def model():
-    return BlackScholes(2).as_option_pricing_model()
+    return GeometricBrownianMotion(2).as_option_pricing_model()
 
 
 def test_variance(model):

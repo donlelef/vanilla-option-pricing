@@ -106,13 +106,13 @@ class OrnsteinUhlenbeck(PossiblePricingModel):
         return self.p_0 * np.exp(-2 * self.l * t) + self.s ** 2 / (2 * self.l) * (1 - np.exp(-2 * self.l * t))
 
 
-class BlackScholes(PossiblePricingModel):
+class GeometricBrownianMotion(PossiblePricingModel):
     """
-    The famous Black-Sholes model, basically a Geometric Brownian Motion
+    The famous Geometric Brownian Motion model
 
     :param s: the volatility
     """
-    name = 'Black-Sholes'
+    name = 'Geometric Brownian Motion'
 
     def __init__(self, s: float):
         self.s = s

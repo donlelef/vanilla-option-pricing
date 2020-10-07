@@ -1,4 +1,4 @@
-from typing import List
+from typing import Tuple
 
 import numpy as np
 from py_vollib.black import undiscounted_black
@@ -18,14 +18,14 @@ class OptionPricingModel:
         self.model = model
 
     @property
-    def parameters(self) -> List[float]:
+    def parameters(self) -> Tuple[float]:
         """
         The model parameters, returned as a list of values
         """
         return self.model.parameters
 
     @parameters.setter
-    def parameters(self, value: List[float]):
+    def parameters(self, value: Tuple[float]):
         """
         Set the model parameters as a list of values
 
