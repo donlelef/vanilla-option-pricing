@@ -1,3 +1,4 @@
+import copy
 from typing import Tuple, List, Sequence, Union, Dict, Callable
 
 import numpy as np
@@ -43,10 +44,11 @@ class ModelCalibration:
         """
         if bounds == 'default':
             bounds = ((self.DEFAULT_PARAMETER_LOWER_BOUND, None),) * len(model.parameters)
-        loss = self._get_loss_function(model)
-        res = minimize(loss, np.array(model.parameters), bounds=bounds, method=method, options=options)
-        model.parameters = res.x
-        return res, model
+        new_model = copy.deepcopy(model)
+        loss = self._get_loss_function(new_model)
+        res = minimize(loss, np.array(new_model.parameters), bounds=bounds, method=method, options=options)
+        new_model.parameters = res.x
+        return res, new_model
 
     def _get_loss_function(self, model: OptionPricingModel) -> Callable[[Sequence[float]], float]:
         def _loss_function(parameters: Sequence[float]) -> float:

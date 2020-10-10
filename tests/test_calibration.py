@@ -21,4 +21,11 @@ def test_calibrate_black_model(option_list):
     model = GeometricBrownianMotion(0.31408317454633633)
     res, model = calibrator.calibrate_model(model)
     assert res.x[0] == pytest.approx(0.26914529578104857, abs=10e-4)
-    assert model.s == pytest.approx(0.26914529578104857, abs=10e-4)
+
+
+def test_calibrate_makes_deepcopy(option_list):
+    calibrator = ModelCalibration(option_list)
+    model = GeometricBrownianMotion(0.31408317454633633)
+    res, new_model = calibrator.calibrate_model(model)
+    assert new_model.s == pytest.approx(0.26914529578104857, abs=10e-4)
+    assert model.s == pytest.approx(0.31408317454633633, abs=10e-4)
