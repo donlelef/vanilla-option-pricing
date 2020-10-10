@@ -1,4 +1,5 @@
-from typing import Tuple
+from abc import ABC, abstractmethod
+from typing import Iterable
 
 import numpy as np
 from py_vollib.black import undiscounted_black
@@ -7,32 +8,19 @@ from py_vollib.black_scholes_merton import black_scholes_merton
 from vanilla_option_pricing.option import VanillaOption
 
 
-class OptionPricingModel:
+class OptionPricingModel(ABC):
     """
     A model which can be used to price European vanilla options.
-
-    :param model: the stochastic model of the underlying
     """
 
-    def __init__(self, model):
-        self.model = model
-
-    @property
-    def parameters(self) -> Tuple[float]:
+    @abstractmethod
+    def parameters(self) -> Iterable[float]:
         """
         The model parameters, returned as a list of values
         """
-        return self.model.parameters
+        pass
 
-    @parameters.setter
-    def parameters(self, value: Tuple[float]):
-        """
-        Set the model parameters as a list of values
-
-        :param value: the list of parameters
-        """
-        self.model.parameters = value
-
+    @abstractmethod
     def variance(self, t: float) -> float:
         """
         The variance of the model output at a certain time instant
@@ -40,7 +28,7 @@ class OptionPricingModel:
         :param t: the time when the variance is evaluated
         :return: the variance at time t
         """
-        return self.model.variance(t)
+        pass
 
     def standard_deviation(self, t: float) -> float:
         """
@@ -124,3 +112,8 @@ class OptionPricingModel:
         :return: the no-arbitrage price of the option
         """
         return self.price_black(option.option_type, option.spot, option.strike, option.years_to_maturity)
+
+    @staticmethod
+    def _check_positivity(params: Iterable[float], message=''):
+        if any(x < 0 for x in params):
+            raise ValueError('All values must be non-negative. ' + message)

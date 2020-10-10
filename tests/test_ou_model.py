@@ -24,7 +24,7 @@ def option():
 
 @fixture
 def model():
-    return OrnsteinUhlenbeck(1, 1, 1).as_option_pricing_model()
+    return OrnsteinUhlenbeck(1, 1, 1)
 
 
 def test_variance(model):

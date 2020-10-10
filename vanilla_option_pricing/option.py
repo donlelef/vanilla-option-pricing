@@ -44,7 +44,7 @@ class VanillaOption:
     @property
     def implied_volatility_of_undiscounted_price(self) -> float:
         """
-        The implied volatility of the option, considering an undisconted price.
+        The implied volatility of the option, considering an undiscounted price.
         Returns zero if the computed implied volatility is negative.
         """
         if self.option_type not in ('c', 'p'):

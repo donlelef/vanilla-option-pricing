@@ -1,4 +1,3 @@
-import abc
 from typing import Tuple
 
 import numpy as np
@@ -7,22 +6,7 @@ from scipy import linalg as la
 from vanilla_option_pricing.option_pricing import OptionPricingModel
 
 
-class PossiblePricingModel(abc.ABC):
-    """
-    A model which can be used to price options, because it exposes the methods
-    required by :class:`~option_pricing.OptionPricingModel`.
-    """
-
-    def as_option_pricing_model(self) -> OptionPricingModel:
-        """
-        Converts the model to as option pricing model, thus providing pricing methods
-
-        :return: an :class:`~option_pricing.OptionPricingModel` based on this model
-        """
-        return OptionPricingModel(self)
-
-
-class LogMeanRevertingToGeneralisedWienerProcess(PossiblePricingModel):
+class LogMeanRevertingToGeneralisedWienerProcess(OptionPricingModel):
     """
     The Log Mean-Reverting To Generalised Wiener Process model. It is a two-factor, mean reverting model, where the
     long-term behaviour is given by a Geometric Brownian motion, while the short-term mean-reverting tendency
@@ -38,19 +22,21 @@ class LogMeanRevertingToGeneralisedWienerProcess(PossiblePricingModel):
 
     def __init__(self, p_0: np.array, l: float, s_x: float, s_y: float):
         self.p_0 = p_0
-        self.l = l
-        self.s_x = s_x
-        self.s_y = s_y
+        self.parameters = l, s_x, s_y
 
     @property
     def parameters(self) -> Tuple[float, float, float]:
         """
-        Model parameters, as a list of real numbers, in the order [l, s_x, s_y].
+        Model parameters, as a tuple of real numbers, in the order l, s_x, s_y.
         """
         return self.l, self.s_x, self.s_y
 
     @parameters.setter
     def parameters(self, value: Tuple[float, float, float]):
+        super(LogMeanRevertingToGeneralisedWienerProcess, self)._check_positivity(
+            value,
+            'l, s_x, s_y must be non-negative'
+        )
         self.l = value[0]
         self.s_x = value[1]
         self.s_y = value[2]
@@ -69,7 +55,7 @@ class LogMeanRevertingToGeneralisedWienerProcess(PossiblePricingModel):
         return first_term + second_term + third_term
 
 
-class OrnsteinUhlenbeck(PossiblePricingModel):
+class OrnsteinUhlenbeck(OptionPricingModel):
     """
     The single-factor, mean-reverting Ornstein-Uhlenbeck process.
 
@@ -81,8 +67,7 @@ class OrnsteinUhlenbeck(PossiblePricingModel):
 
     def __init__(self, p_0: float, l: float, s: float):
         self.p_0 = p_0
-        self.l = l
-        self.s = s
+        self.parameters = l, s
 
     @property
     def parameters(self) -> Tuple[float, float]:
@@ -93,6 +78,10 @@ class OrnsteinUhlenbeck(PossiblePricingModel):
 
     @parameters.setter
     def parameters(self, value: Tuple[float, float]):
+        super(OrnsteinUhlenbeck, self)._check_positivity(
+            value,
+            'l, s must be non-negative'
+        )
         self.l = value[0]
         self.s = value[1]
 
@@ -106,7 +95,7 @@ class OrnsteinUhlenbeck(PossiblePricingModel):
         return self.p_0 * np.exp(-2 * self.l * t) + self.s ** 2 / (2 * self.l) * (1 - np.exp(-2 * self.l * t))
 
 
-class GeometricBrownianMotion(PossiblePricingModel):
+class GeometricBrownianMotion(OptionPricingModel):
     """
     The famous Geometric Brownian Motion model
 
@@ -115,7 +104,7 @@ class GeometricBrownianMotion(PossiblePricingModel):
     name = 'Geometric Brownian Motion'
 
     def __init__(self, s: float):
-        self.s = s
+        self.parameters = (s,)
 
     @property
     def parameters(self) -> Tuple[float]:
@@ -126,6 +115,7 @@ class GeometricBrownianMotion(PossiblePricingModel):
 
     @parameters.setter
     def parameters(self, value: Tuple[float]):
+        super(GeometricBrownianMotion, self)._check_positivity(value, 's must be non-negative')
         self.s = value[0]
 
     def variance(self, t: float) -> float:
@@ -138,7 +128,7 @@ class GeometricBrownianMotion(PossiblePricingModel):
         return self.s ** 2 * t
 
 
-class NumericalLogMeanRevertingToGeneralisedWienerProcess(PossiblePricingModel):
+class NumericalLogMeanRevertingToGeneralisedWienerProcess(OptionPricingModel):
     """
     This model relies on the same stochastic process as :class:`~models.LogMeanRevertingToGeneralisedWienerProcess`,
     but uses numerical procedures based on matrix exponential instead of closed formulas to compute the variance.
@@ -155,24 +145,25 @@ class NumericalLogMeanRevertingToGeneralisedWienerProcess(PossiblePricingModel):
 
     def __init__(self, p_0: np.array, l: float, s_x: float, s_y: float):
         self.p_0 = p_0
-        self.l = l
-        self.s_x = s_x
-        self.s_y = s_y
-        self.numerical_model = NumericalModel(self.__get_A_matrix(), self.__get_B_matrix(), self.p_0)
+        self.parameters = l, s_x, s_y
 
     @property
     def parameters(self) -> Tuple[float, float, float]:
         """
-        Model parameters, as a list of real numbers, in the order [l, s_x, s_y].
+        Model parameters, as a tuple of real numbers, in the order l, s_x, s_y.
         """
         return self.l, self.s_x, self.s_y
 
     @parameters.setter
     def parameters(self, value: Tuple[float, float, float]):
+        super(NumericalLogMeanRevertingToGeneralisedWienerProcess, self)._check_positivity(
+            value,
+            'l, s_x, s_y must be non-negative'
+        )
         self.l = value[0]
         self.s_x = value[1]
         self.s_y = value[2]
-        self.numerical_model.parameters = (self.__get_A_matrix(), self.__get_B_matrix())
+        self.numerical_model = NumericalModel(self.__get_matrix_a(), self.__get_matrix_b(), self.p_0)
 
     def variance(self, t: float) -> float:
         """
@@ -183,10 +174,10 @@ class NumericalLogMeanRevertingToGeneralisedWienerProcess(PossiblePricingModel):
         """
         return self.numerical_model.variance(t)
 
-    def __get_A_matrix(self) -> np.array:
+    def __get_matrix_a(self) -> np.array:
         return np.array([[-self.l, self.l], [0, 0]])
 
-    def __get_B_matrix(self) -> np.array:
+    def __get_matrix_b(self) -> np.array:
         return np.array([[self.s_x, 0], [0, self.s_y]])
 
 
@@ -204,18 +195,6 @@ class NumericalModel:
         self.A = A
         self.B = B
         self.p_0 = p_0
-
-    @property
-    def parameters(self) -> Tuple[np.array, np.array]:
-        """
-        Model parameters, as a list of matrices, in the order [A, B].
-        """
-        return self.A, self.B
-
-    @parameters.setter
-    def parameters(self, value: Tuple[np.array, np.array]):
-        self.A = value[0]
-        self.B = value[0]
 
     def variance(self, t: float) -> float:
         """

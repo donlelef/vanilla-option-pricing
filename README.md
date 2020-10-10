@@ -47,7 +47,7 @@ get the real option price.
 from vanilla_option_princing.models import GeometricBrownianMotion
 
 volatility = option.implied_volatility_of_undiscounted_price
-model = GeometricBrownianMotion(volatility).as_option_pricing_model()
+model = GeometricBrownianMotion(volatility)
 model_price = model.price_option_black(option)
 print(f'Actual price: {option.price}, model price: {model_price}')
 ```
@@ -56,6 +56,7 @@ We can also try and calibrate the parameters of a model against
 listed options.
 
 ```python
+from datetime import date
 from vanilla_option_princing.models import OrnsteinUhlenbeck
 from vanilla_option_pricing.calibration import ModelCalibration
 
@@ -74,8 +75,7 @@ calibration = ModelCalibration(data_set)
 print(f'Implied volatilities: {[o.implied_volatility_of_undiscounted_price for o in data_set]}\n')
 
 for model in models:
-    option_pricing_model = model.as_option_pricing_model()
-    result, trained_model = calibration.calibrate_model(option_pricing_model)
+    result, trained_model = calibration.calibrate_model(model)
     print('Optimization results:')
     print(result)
     print(f'Calibrated parameters: {trained_model.parameters}\n\n')

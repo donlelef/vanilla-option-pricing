@@ -5,7 +5,7 @@ from vanilla_option_pricing.models import GeometricBrownianMotion
 
 @fixture
 def model():
-    return GeometricBrownianMotion(2).as_option_pricing_model()
+    return GeometricBrownianMotion(2)
 
 
 def test_variance(model):

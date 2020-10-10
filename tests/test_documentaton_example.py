@@ -29,14 +29,13 @@ def test_model_execution(option):
     assert volatility == pytest.approx(0.12578680488787206, abs=10e-4)
 
     t = 0.5
-    bs_model = GeometricBrownianMotion(volatility).as_option_pricing_model()
+    bs_model = GeometricBrownianMotion(volatility)
     assert bs_model.volatility(t) == pytest.approx(0.12578680488787203, abs=10e-4)
 
-    ou_model = OrnsteinUhlenbeck(0, 100, 0.2).as_option_pricing_model()
+    ou_model = OrnsteinUhlenbeck(0, 100, 0.2)
     assert ou_model.volatility(t) == 0.02
 
-    lmrgw = LogMeanRevertingToGeneralisedWienerProcess(np.array([[0, 0], [0, 0]]), 100, 0.1, 0.3)
-    lmrgw_model = lmrgw.as_option_pricing_model()
+    lmrgw_model = LogMeanRevertingToGeneralisedWienerProcess(np.array([[0, 0], [0, 0]]), 100, 0.1, 0.3)
     assert lmrgw_model.volatility(t) == pytest.approx(0.2956349099818896, abs=1e-4)
 
 
@@ -56,8 +55,7 @@ def test_calibration():
     print(f'Implied volatilities: {[o.implied_volatility_of_undiscounted_price for o in data_set]}\n')
 
     for model in models:
-        option_pricing_model = model.as_option_pricing_model()
-        result, trained_model = calibration.calibrate_model(option_pricing_model)
+        result, trained_model = calibration.calibrate_model(model)
         print('Optimization results:')
         print(result)
         print(f'Calibrated parameters: {trained_model.parameters}\n\n')

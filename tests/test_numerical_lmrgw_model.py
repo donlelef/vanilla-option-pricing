@@ -15,4 +15,5 @@ def test_variance(model):
 
 
 def test_properties(model):
-    assert model.parameters == (1, 0)
+    assert model.A == 1
+    assert model.B == 0
