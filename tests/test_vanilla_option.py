@@ -32,12 +32,32 @@ def option_list():
     ]
 
 
-def test_years_to_maturity(option):
+def test_years_to_maturity(option: VanillaOption):
     assert option.years_to_maturity == pytest.approx(30 / 365.25, abs=0.01)
 
 
-def test_implied_volatility(option):
+def test_implied_volatility(option: VanillaOption):
     assert option.implied_volatility_of_undiscounted_price == pytest.approx(0.0875, abs=0.0001)
+
+
+def test_to_dict(option: VanillaOption):
+    assert option.to_dict() == {
+        'spot': option.spot,
+        'strike': option.strike,
+        'dividend': option.dividend,
+        'date': option.date,
+        'maturity': option.maturity,
+        'option_type': option.option_type,
+        'price': option.price,
+        'instrument': option.instrument
+    }
+
+
+def test_error_on_invalid_option_type(option: VanillaOption):
+    option.option_type = 'x'
+    with pytest.raises(ValueError) as err:
+        _ = option.implied_volatility_of_undiscounted_price
+        assert 'option_type shall be' in err.value
 
 
 def test_option_list_to_pandas_dataframe(option_list):

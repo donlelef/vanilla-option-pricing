@@ -47,6 +47,8 @@ class VanillaOption:
         The implied volatility of the option, considering an undisconted price.
         Returns zero if the computed implied volatility is negative.
         """
+        if self.option_type not in ('c', 'p'):
+            raise ValueError('option_type shall be either "c" for call or "p" for put')
         try:
             return iv.implied_volatility_of_undiscounted_option_price(
                 self.price,
@@ -62,7 +64,7 @@ class VanillaOption:
         """
         :return: all the fields of the object in a dictionary
         """
-        return {k: v for k, v in vars(self).items() if not k.startswith('_')}
+        return vars(self)
 
 
 def option_list_to_pandas_dataframe(options: List[VanillaOption]):
