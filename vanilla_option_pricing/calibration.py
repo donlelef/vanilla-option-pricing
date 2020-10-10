@@ -1,33 +1,35 @@
-from typing import Tuple
+from typing import Tuple, List, Sequence, Union, Dict, Callable
 
 import numpy as np
 from scipy.optimize import minimize, OptimizeResult
 
+from vanilla_option_pricing.option import VanillaOption
 from vanilla_option_pricing.option_pricing import OptionPricingModel
 
 
 class ModelCalibration:
     """
-    Calibrate option pricing models according to prices of listed options
+    Calibrate option pricing models with prices of listed options
 
     :param options: a collection of :class:`~option.VanillaOption`
     """
 
     DEFAULT_PARAMETER_LOWER_BOUND = 1e-4
 
-    def __init__(self, options):
+    def __init__(self, options: List[VanillaOption]):
         self.options = options
 
     def calibrate_model(
             self,
             model: OptionPricingModel,
-            method=None,
-            options=None,
-            bounds='default'
+            method: str = None,
+            options: Dict = None,
+            bounds: Union[str, Sequence[Tuple[float, float]]] = 'default'
     ) -> Tuple[OptimizeResult, OptionPricingModel]:
         """
         Tune model parameters and returns a tuned model. The algorithm tries to minimize the squared difference
-        between the prices of listed options and the prices predicted by the model, by tuning model parameters.
+        between the prices of listed options and the prices predicted by the model: the parameters of the model
+        are the optimization variables.
         The numerical optimization is performed by :func:`~scipy.optimize.minimize` in the scipy package.
 
         :param model: the model to calibrate
@@ -46,8 +48,8 @@ class ModelCalibration:
         model.parameters = res.x
         return res, model
 
-    def _get_loss_function(self, model):
-        def _loss_function(parameters):
+    def _get_loss_function(self, model: OptionPricingModel) -> Callable[[Sequence[float]], float]:
+        def _loss_function(parameters: Sequence[float]) -> float:
             model.parameters = parameters
             predicted_prices = np.array([model.price_option_black(o) for o in self.options])
             real_prices = np.array([o.price for o in self.options])

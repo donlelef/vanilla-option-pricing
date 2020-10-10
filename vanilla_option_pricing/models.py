@@ -13,9 +13,9 @@ class LogMeanRevertingToGeneralisedWienerProcess(OptionPricingModel):
     is modelled by an Ornstein-Uhlenbeck process.
 
     :param p_0: the initial variance, that is the variance of the state at time t=0. Must be a 2x2 numpy array
-    :param l: the strength of mean-reversion
-    :param s_x: volatility of the long-term process
-    :param s_y: volatility of the short-term process
+    :param l: the strength of mean-reversion, must be non-negative
+    :param s_x: volatility of the long-term process, must be non-negative
+    :param s_y: volatility of the short-term process, must be non-negative
     """
 
     name = 'Log Mean-Reverting To Generalised Wiener Process'
@@ -43,7 +43,7 @@ class LogMeanRevertingToGeneralisedWienerProcess(OptionPricingModel):
 
     def variance(self, t: float) -> float:
         """
-        The variance of the model output at a certain time instant
+        The variance of the model output at a given time instant
 
         :param t: the time when the variance is evaluated
         :return: the variance at time t
@@ -59,9 +59,10 @@ class OrnsteinUhlenbeck(OptionPricingModel):
     """
     The single-factor, mean-reverting Ornstein-Uhlenbeck process.
 
-    :param p_0: the initial variance, that is the variance of the state at time t=0
-    :param l: the strength of the mean-reversion
-    :param s: the volatility
+    :param p_0: the initial variance, that is the variance of the state at time t=0, must be positive
+    semidefinite and symmetric
+    :param l: the strength of the mean-reversion, must be non-negative
+    :param s: the volatility, must be non-negative
     """
     name = 'Ornstein-Uhlenbeck'
 
@@ -87,7 +88,7 @@ class OrnsteinUhlenbeck(OptionPricingModel):
 
     def variance(self, t: float) -> float:
         """
-        The variance of the model output at a certain time instant
+        The variance of the model output at a given time instant
 
         :param t: the time when the variance is evaluated
         :return: the variance at time t
@@ -97,9 +98,9 @@ class OrnsteinUhlenbeck(OptionPricingModel):
 
 class GeometricBrownianMotion(OptionPricingModel):
     """
-    The famous Geometric Brownian Motion model
+    The celebrated Geometric Brownian Motion model
 
-    :param s: the volatility
+    :param s: the volatility, must be non-negative
     """
     name = 'Geometric Brownian Motion'
 
@@ -109,7 +110,7 @@ class GeometricBrownianMotion(OptionPricingModel):
     @property
     def parameters(self) -> Tuple[float]:
         """
-        Model parameters, as a list of real numbers, in the order [s].
+        Model parameters, as a tuple of real numbers, in the order (s, ).
         """
         return (self.s,)
 
@@ -120,7 +121,7 @@ class GeometricBrownianMotion(OptionPricingModel):
 
     def variance(self, t: float) -> float:
         """
-        The variance of the model output at a certain time instant
+        The variance of the model output at a given time instant
 
         :param t: the time when the variance is evaluated
         :return: the variance at time t
@@ -131,14 +132,16 @@ class GeometricBrownianMotion(OptionPricingModel):
 class NumericalLogMeanRevertingToGeneralisedWienerProcess(OptionPricingModel):
     """
     This model relies on the same stochastic process as :class:`~models.LogMeanRevertingToGeneralisedWienerProcess`,
-    but uses numerical procedures based on matrix exponential instead of closed formulas to compute the variance.
-    As this approach is considerably slower, it is strongly suggested to use
+    but uses a numerical procedures based on a matrix exponential instead of the analytical formulas to
+    compute the variance.
+    As this approach is considerably slower, it is strongly suggested to adopt
     :class:`~models.LogMeanRevertingToGeneralisedWienerProcess` instead, using this class only for benchmarking
 
-    :param p_0: the initial variance, that is the variance of the state at time t=0. Must be a 2x2 numpy matrix
-    :param l: the strength of mean-reversion
-    :param s_x: volatility of the long-term process
-    :param s_y: volatility of the short-term process
+    :param p_0: the initial variance, that is the variance of the state at time t=0. Must be a 2x2 numpy array,
+    symmetric and positive semidefinite
+    :param l: the strength of mean-reversion, must be non-negative
+    :param s_x: volatility of the long-term process, must be non-negative
+    :param s_y: volatility of the short-term process, must be non-negative
     """
 
     name = 'Numerical Log Mean-Reverting To Generalised Wiener Process'
@@ -167,7 +170,7 @@ class NumericalLogMeanRevertingToGeneralisedWienerProcess(OptionPricingModel):
 
     def variance(self, t: float) -> float:
         """
-        The variance of the model output at a certain time instant
+        The variance of the model output at a given time instant
 
         :param t: the time when the variance is evaluated
         :return: the variance at time t
@@ -183,11 +186,13 @@ class NumericalLogMeanRevertingToGeneralisedWienerProcess(OptionPricingModel):
 
 class NumericalModel:
     """
-    A general-purpose linear stochastic system. All the parameters must be matrices of suitable dimension
+    A general-purpose linear stochastic system. All the parameters must be matrices (as Numpy arrays) of
+    suitable dimensions.
 
     :param A: the dynamic matrix A of the system
     :param B: the input matrix B of the system
-    :param p_0: the initial variance, that is the variance of the state at time t=0
+    :param p_0: the initial variance, that is the variance of the state at time t=0,
+    must be symmetric and positive semidefinite
 
     """
 
@@ -198,7 +203,7 @@ class NumericalModel:
 
     def variance(self, t: float) -> float:
         """
-        The variance of the model output at a certain time instant
+        The variance of the model output at a given time instant
 
         :param t: the time when the variance is evaluated
         :return: the variance at time t

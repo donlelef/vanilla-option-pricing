@@ -8,7 +8,7 @@ from py_vollib.black import implied_volatility as iv
 
 class VanillaOption:
     """
-    A European vanilla option. All the prices must have consistent unit of measure
+    A European vanilla option. All the prices must share the same currency.
 
     :param instrument: name of the underlying
     :param option_type: type of the option (c for call, p for put)
@@ -37,7 +37,7 @@ class VanillaOption:
     @property
     def years_to_maturity(self) -> float:
         """
-        The years remaining to option maturity, as a decimal number
+        The years remaining to option maturity, as a decimal number.
         """
         return (self.maturity - self.date).days / self.DAYS_IN_YEAR
 
@@ -45,10 +45,9 @@ class VanillaOption:
     def implied_volatility_of_undiscounted_price(self) -> float:
         """
         The implied volatility of the option, considering an undiscounted price.
-        Returns zero if the computed implied volatility is negative.
+        Returns zero if the implied volatility is negative.
         """
-        if self.option_type not in ('c', 'p'):
-            raise ValueError('option_type shall be either "c" for call or "p" for put')
+        check_option_type(self.option_type)
         try:
             return iv.implied_volatility_of_undiscounted_option_price(
                 self.price,
@@ -67,9 +66,9 @@ class VanillaOption:
         return vars(self)
 
 
-def option_list_to_pandas_dataframe(options: List[VanillaOption]):
+def option_list_to_pandas_dataframe(options: List[VanillaOption]) -> pd.DataFrame:
     """
-    A utility function to convert a list of :class:`~option.VanillaOption` to a pandas dataframe
+    A utility function to convert a list of :class:`~option.VanillaOption` to a pandas dataframe.
 
     :param options: a list of :class:`~option.VanillaOption`
     :return: a pandas dataframe, containing option data
@@ -78,13 +77,22 @@ def option_list_to_pandas_dataframe(options: List[VanillaOption]):
     return pd.DataFrame.from_records([o.to_dict() for o in options])
 
 
-def pandas_dataframe_to_option_list(data_frame: pd.DataFrame):
+def pandas_dataframe_to_option_list(data_frame: pd.DataFrame) -> List[VanillaOption]:
     """
     A utility function to convert a pandas dataframe to a list of :class:`~option.VanillaOption`.
-    For this function to work, the dataframe columns should be names as the parameters of
-    :class:`~option.VanillaOption`'s constructor
+    For this function to work, the dataframe columns should be named as the parameters of
+    :class:`~option.VanillaOption`'s constructor.
 
     :param data_frame: a pandas dataframe, containing option data
     :return: a list of :class:`~option.VanillaOption`
     """
     return [VanillaOption(**o) for o in data_frame.to_dict(orient='records')]
+
+
+def check_option_type(option_type: str):
+    """
+    A utility function to check the validity of the type of an option. Raises a ValueError if the type is invalid.
+    :param option_type: the type of the option: valid types are "c" for call and "p" for put
+    """
+    if option_type not in ('c', 'p'):
+        raise ValueError('option_type shall be either "c" for call or "p" for put')
