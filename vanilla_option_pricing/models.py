@@ -59,8 +59,7 @@ class OrnsteinUhlenbeck(OptionPricingModel):
     """
     The single-factor, mean-reverting Ornstein-Uhlenbeck process.
 
-    :param p_0: the initial variance, that is the variance of the state at time t=0, must be positive
-    semidefinite and symmetric
+    :param p_0: the initial variance, that is the variance of the state at time t=0, must be positive semidefinite and symmetric
     :param l: the strength of the mean-reversion, must be non-negative
     :param s: the volatility, must be non-negative
     """
@@ -133,12 +132,10 @@ class NumericalLogMeanRevertingToGeneralisedWienerProcess(OptionPricingModel):
     """
     This model relies on the same stochastic process as :class:`~models.LogMeanRevertingToGeneralisedWienerProcess`,
     but uses a numerical procedures based on a matrix exponential instead of the analytical formulas to
-    compute the variance.
-    As this approach is considerably slower, it is strongly suggested to adopt
+    compute the variance. As this approach is considerably slower, it is strongly suggested to adopt
     :class:`~models.LogMeanRevertingToGeneralisedWienerProcess` instead, using this class only for benchmarking
 
-    :param p_0: the initial variance, that is the variance of the state at time t=0. Must be a 2x2 numpy array,
-    symmetric and positive semidefinite
+    :param p_0: the initial variance, that is the variance of the state at time t=0. Must be a 2x2 numpy array, symmetric and positive semidefinite
     :param l: the strength of mean-reversion, must be non-negative
     :param s_x: volatility of the long-term process, must be non-negative
     :param s_y: volatility of the short-term process, must be non-negative
@@ -191,8 +188,7 @@ class NumericalModel:
 
     :param A: the dynamic matrix A of the system
     :param B: the input matrix B of the system
-    :param p_0: the initial variance, that is the variance of the state at time t=0,
-    must be symmetric and positive semidefinite
+    :param p_0: the initial variance, that is the variance of the state at time t=0, must be symmetric and positive semidefinite
 
     """
 
