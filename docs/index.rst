@@ -1,14 +1,24 @@
-.. Vanilla Option Pricing documentation master file, created by
-sphinx-quickstart on Sun Oct 11 11:21:37 2020.
-You can adapt this file completely to your liking, but it should at least
-contain the root `toctree` directive.
+**********************
+Vanilla Option Pricing
+**********************
 
-Welcome to Vanilla Option Pricing's documentation!
-==================================================
+A Python package implementing stochastic models to price financial options.
+
+The theoretical background and a comprehensive explanation of models and their parameters can be found is the paper
+`Fast calibration of two-factor models for energy option pricing <https://arxiv.org/abs/1809.03941>`_
+by Emanuele Fabbiani, Andrea Marziali and Giuseppe De Nicolao, freely available on arXiv.
 
 .. toctree::
-   :maxdepth: 2
-   :caption: Contents:
+   :maxdepth: 1
+   :caption: Quick reference
+
+   installing
+   getting started
+   models
+   model calibration
+
+.. include:: modules.rst
+
 
 
 
