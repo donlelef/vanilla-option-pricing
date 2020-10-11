@@ -1,4 +1,3 @@
-
 .. toctree::
    :caption: API Documentation
    :maxdepth: 4

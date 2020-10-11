@@ -2,20 +2,24 @@
 Model calibration
 *****************
 
-In the context of this package, calibration is a procedure which takes an option pricing model
+The market calibration calibration is a procedure which takes an option pricing model
 and a set of listed vanilla options and tunes the parameters of the model so that the option price
-predicted by the model is as close as possible to the actual prices of listed options.
+given by the model is as close as possible to the actual prices of listed options.
+
+More rigorous details and a mathematical formulation can be found in the paper
+`Fast calibration of two-factor models for energy option pricing <https://arxiv.org/abs/1809.03941>`_.
 
 Creating inputs
 ===============
 
-We'll suppose that our training set has only three options.
+We'll suppose that the available dataset to tune our model contains has only three options. In a realistic
+scenario, tens to hundreds of options would be needed.
 
 .. code:: python
 
-    from datetime import datetime, timedelta
-    from vanilla_option_princing.option import VanillaOption
-    from vanilla_option_princing.models import OrnsteinUhlenbeck
+    from datetime import date
+    from vanilla_option_pricing.option import VanillaOption
+    from vanilla_option_pricing.models import GeometricBrownianMotion, OrnsteinUhlenbeck
     from vanilla_option_pricing.calibration import ModelCalibration
 
     data_set = [
@@ -24,12 +28,12 @@ We'll suppose that our training set has only three options.
         VanillaOption('TTF', 'c', date(2018, 1, 1), 5, 101, 100, date(2018, 5, 31))
     ]
 
-We want to calibrate both a Black-Scholes and an Ornstein-Uhlenbeck model.
+We want to calibrate both a Geometric Brownian motion and an Ornstein-Uhlenbeck model.
 
 .. code:: python
 
     models = [
-        BlackScholes(0.2),
+        GeometricBrownianMotion(0.2),
         OrnsteinUhlenbeck(p_0=0, l=100, s=2)
     ]
 
@@ -44,8 +48,7 @@ We can now instantiate the calibration object, run the optimization algorithm an
     calibration = ModelCalibration(data_set)
 
     for model in models:
-        option_pricing_model = model.as_option_pricing_model()
-        result, trained_model = calibration.calibrate_model(option_pricing_model)
+        result, trained_model = calibration.calibrate_model(model)
         print('Optimization results:')
         print(result)
         print(f'Calibrated parameters: {trained_model.parameters}\n\n')

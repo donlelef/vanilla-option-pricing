@@ -1,22 +1,31 @@
-import os
-from unittest import TestCase
+from pathlib import Path
 
 import pandas as pd
+import pytest
+from pytest import fixture
 
 from vanilla_option_pricing.calibration import ModelCalibration
-from vanilla_option_pricing.models import BlackScholes
-from vanilla_option_pricing.option import VanillaOption
+from vanilla_option_pricing.models import GeometricBrownianMotion
+from vanilla_option_pricing.option import pandas_dataframe_to_option_list
 
 
-class TestModelCalibration(TestCase):
-    def setUp(self):
-        file_path = os.path.realpath(os.path.join(os.path.dirname(__file__), 'fixtures', 'data.csv'))
-        dateparse = lambda x: pd.datetime.strptime(x, '%d/%m/%Y')
-        data_set = pd.read_csv(file_path, parse_dates=['date', 'maturity'], date_parser=dateparse)
-        self.options = [VanillaOption(**r) for r in data_set.to_dict(orient='record')]
+@fixture
+def option_list():
+    path = Path(__file__).resolve().parent / 'test_data' / 'data.csv'
+    data_set = pd.read_csv(path, parse_dates=['date', 'maturity'], dayfirst=True)
+    return pandas_dataframe_to_option_list(data_set)
 
-    def test_calibrate_black_model(self):
-        calibrator = ModelCalibration(self.options)
-        res, model = calibrator.calibrate_model(BlackScholes(0.31408317454633633).as_option_pricing_model())
-        self.assertAlmostEqual(res.x[0], 0.26914529578104857, places=5)
-        self.assertAlmostEqual(model.model.s, 0.26914529578104857, places=5)
+
+def test_calibrate_black_model(option_list):
+    calibrator = ModelCalibration(option_list)
+    model = GeometricBrownianMotion(0.31408317454633633)
+    res, model = calibrator.calibrate_model(model)
+    assert res.x[0] == pytest.approx(0.26914529578104857, abs=10e-4)
+
+
+def test_calibrate_makes_deepcopy(option_list):
+    calibrator = ModelCalibration(option_list)
+    model = GeometricBrownianMotion(0.31408317454633633)
+    res, new_model = calibrator.calibrate_model(model)
+    assert new_model.s == pytest.approx(0.26914529578104857, abs=10e-4)
+    assert model.s == pytest.approx(0.31408317454633633, abs=10e-4)

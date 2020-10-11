@@ -1,13 +1,14 @@
-
 ************
 Installation
 ************
 
-The preferred way to install the package is using pip,
-but you can also download the code and install the package from source
+The preferred way to install the package is using pip.
 
-Via Python Package
-==================
+If your want to modify the code or contribute to the development, feel free to
+clone the repository and to set up the project on your own machine.
+
+Install from PyPI
+=================
 
 Install the package (or add it to your ``requirements.txt`` file):
 
@@ -15,8 +16,8 @@ Install the package (or add it to your ``requirements.txt`` file):
 
     pip install vanilla_option_pricing
 
-Via Git or Download
-===================
+Set up the project
+==================
 
 Clone the repository:
 
@@ -24,8 +25,10 @@ Clone the repository:
 
     git clone https://github.com/donlelef/vanilla-option-pricing.git
 
-Then run the setup command:
+The project uses Poetry as a dependency manager. To get started, follow the
+`official documentation <https://python-poetry.org/docs/#installation>`_.
+Then, simply run:
 
 .. code:: bash
 
-    python setup.py install
+    poetry install

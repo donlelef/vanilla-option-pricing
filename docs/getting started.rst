@@ -2,7 +2,7 @@
 Getting started
 ***************
 
-This tutorial is meant to show basic usage of this package.
+This tutorial shows basic usage of this package.
 
 Creating options
 ================
@@ -11,9 +11,9 @@ Let's create a sample call option
 
 .. code:: python
 
-    from datetime import datetime, timedelta
-    from vanilla_option_princing.option import VanillaOption
-    from vanilla_option_princing.models import BlackScholes
+    from datetime import date, datetime, timedelta
+    from vanilla_option_pricing.option import VanillaOption
+    from vanilla_option_pricing.models import GeometricBrownianMotion
     from vanilla_option_pricing.calibration import ModelCalibration
 
     option = VanillaOption(
@@ -30,14 +30,14 @@ Let's create a sample call option
 Implied volatility and option pricing
 =====================================
 
-We can compute the implied volatility and create a Black-Sholes model
-with it. Of course, if now we ask the model to price the option, we'll
-get the real option price.
+We can compute the implied volatility and create a Geometric Brownian Motion
+model with it. Of course, if now we ask price the option using the Black framework,
+we'll get back the initial price.
 
 .. code:: python
 
     volatility = option.implied_volatility_of_undiscounted_price
-    model = BlackScholes(volatility).as_option_pricing_model()
+    model = GeometricBrownianMotion(volatility)
     model_price = model.price_option_black(option)
     print(f'Actual price: {option.price}, model price: {model_price}')
 
@@ -58,12 +58,12 @@ listed options.
     for o in data_set:
         print(f'Implied volatility: {o.implied_volatility_of_undiscounted_price}')
 
-    model = BlackScholes(0.2).as_option_pricing_model()
+    model = GeometricBrownianMotion(0.2)
     calibration = ModelCalibration(data_set)
 
-    result, trained_model = calibration.calibrate_model(model)
+    result, tuned_model = calibration.calibrate_model(model)
     print(result)
-    print(f'Calibrated implied volatility: {trained_model.parameters[0]}')
+    print(f'Calibrated implied volatility: {tuned_model.parameters[0]}')
 
 As we can see, the calibration process takes the implied volatility of the model close
 to the average of the options it has been trained on.
