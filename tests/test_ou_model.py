@@ -4,6 +4,7 @@ import numpy as np
 import pytest
 from pytest import fixture
 
+from tests.utils import check_exception_on_wrong_parameters
 from vanilla_option_pricing.models import OrnsteinUhlenbeck
 from vanilla_option_pricing.option import VanillaOption
 
@@ -45,3 +46,12 @@ def test_black(model, option):
 
 def test_properties(model):
     assert model.parameters == (1, 1)
+
+
+def test_exception_on_illegal_parameters():
+    check_exception_on_wrong_parameters(
+        OrnsteinUhlenbeck,
+        {'p_0': 1, 'l': -1, 's': 1},
+        {'p_0': 1, 'l': 1, 's': 1},
+        (1, -1)
+    )
