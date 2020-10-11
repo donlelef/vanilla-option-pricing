@@ -69,10 +69,11 @@ One of the most common two-factor, mean-reverting models.
 
 .. code:: python
 
+    import numpy as np
     from vanilla_option_pricing.models import LogMeanRevertingToGeneralisedWienerProcess
 
     lmrgw_model = LogMeanRevertingToGeneralisedWienerProcess(
-        p_0 = np.matrix([[0, 0], [0, 0]]),
+        p_0 = np.eye(2),
         l = 100,
         s_x = 0.1,
         s_y = 0.3

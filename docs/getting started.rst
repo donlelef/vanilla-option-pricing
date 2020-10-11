@@ -11,9 +11,9 @@ Let's create a sample call option
 
 .. code:: python
 
-    from datetime import datetime, timedelta
-    from vanilla_option_princing.option import VanillaOption
-    from vanilla_option_princing.models import GeometricBrownianMotion
+    from datetime import date, datetime, timedelta
+    from vanilla_option_pricing.option import VanillaOption
+    from vanilla_option_pricing.models import GeometricBrownianMotion
     from vanilla_option_pricing.calibration import ModelCalibration
 
     option = VanillaOption(

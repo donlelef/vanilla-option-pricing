@@ -17,9 +17,9 @@ scenario, tens to hundreds of options would be needed.
 
 .. code:: python
 
-    from datetime import datetime, timedelta
-    from vanilla_option_princing.option import VanillaOption
-    from vanilla_option_princing.models import GeometricBrownianMotion, OrnsteinUhlenbeck
+    from datetime import date
+    from vanilla_option_pricing.option import VanillaOption
+    from vanilla_option_pricing.models import GeometricBrownianMotion, OrnsteinUhlenbeck
     from vanilla_option_pricing.calibration import ModelCalibration
 
     data_set = [

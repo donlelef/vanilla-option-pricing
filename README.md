@@ -24,7 +24,7 @@ Let's create a call option.
 
 ```python
 from datetime import datetime, timedelta
-from vanilla_option_princing.option import VanillaOption
+from vanilla_option_pricing.option import VanillaOption
 
 option = VanillaOption(
     spot=100,
@@ -43,11 +43,11 @@ model with it. Of course, if now we ask price the option using the Black framewo
 we'll get back the initial price.
 
 ```python
-from vanilla_option_princing.models import GeometricBrownianMotion
+from vanilla_option_pricing.models import GeometricBrownianMotion
 
 volatility = option.implied_volatility_of_undiscounted_price
 gbm_model = GeometricBrownianMotion(volatility)
-gbm_price = model.price_option_black(option)
+gbm_price = gbm_model.price_option_black(option)
 print(f'Actual price: {option.price}, model price: {gbm_price}')
 ```
 
@@ -56,7 +56,7 @@ generalised Wiener process model (MLR-GW), we will get a different price.
 
 ```python
 import numpy as np
-from vanilla_option_princing.models import LogMeanRevertingToGeneralisedWienerProcess
+from vanilla_option_pricing.models import LogMeanRevertingToGeneralisedWienerProcess
 
 p_0 = np.eye(2)
 model = LogMeanRevertingToGeneralisedWienerProcess(p_0, 1, 1, 1)
@@ -70,8 +70,8 @@ listed options.
 
 ```python
 from datetime import date
-from vanilla_option_princing.option import VanillaOption
-from vanilla_option_princing.models import OrnsteinUhlenbeck, GeometricBrownianMotion
+from vanilla_option_pricing.option import VanillaOption
+from vanilla_option_pricing.models import OrnsteinUhlenbeck, GeometricBrownianMotion
 from vanilla_option_pricing.calibration import ModelCalibration
 
 data_set = [
