@@ -1,5 +1,5 @@
 # Vanilla Option Pricing
-[![Actions Status](https://github.com/donlelef/vanilla-option-pricing/workflows/main/badge.svg)](https://github.com/donlelef/vanilla-option-pricing/actions)
+[![Actions Status](https://github.com/donlelef/vanilla-option-pricing/workflows/Python%20package/badge.svg)](https://github.com/donlelef/vanilla-option-pricing/actions)
 [![codecov](https://codecov.io/gh/donlelef/vanilla-option-pricing/branch/master/graph/badge.svg)](https://codecov.io/gh/donlelef/vanilla-option-pricing)
 [![Documentation Status](https://readthedocs.org/projects/vanilla-option-pricing/badge/?version=latest)](https://vanilla-option-pricing.readthedocs.io/en/latest/?badge=latest)
 [![Downloads](https://pepy.tech/badge/vanilla-option-pricing)](https://pepy.tech/project/vanilla-option-pricing)

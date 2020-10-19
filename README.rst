@@ -6,7 +6,7 @@ Vanilla Option Pricing
 ======================
 
 
-.. image:: https://github.com/donlelef/vanilla-option-pricing/workflows/main/badge.svg
+.. image:: https://github.com/donlelef/vanilla-option-pricing/workflows/Python%20package/badge.svg
    :target: https://github.com/donlelef/vanilla-option-pricing/actions
    :alt: Actions Status
 
