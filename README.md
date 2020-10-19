@@ -3,6 +3,7 @@
 [![codecov](https://codecov.io/gh/donlelef/vanilla-option-pricing/branch/master/graph/badge.svg)](https://codecov.io/gh/donlelef/vanilla-option-pricing)
 [![Documentation Status](https://readthedocs.org/projects/vanilla-option-pricing/badge/?version=latest)](https://vanilla-option-pricing.readthedocs.io/en/latest/?badge=latest)
 [![Downloads](https://pepy.tech/badge/vanilla-option-pricing)](https://pepy.tech/project/vanilla-option-pricing)
+[![DOI](https://zenodo.org/badge/147844047.svg)](https://zenodo.org/badge/latestdoi/147844047)
 
 A Python package implementing stochastic models to price financial options.  
 The theoretical background and a comprehensive explanation of models and their parameters

@@ -26,6 +26,10 @@ Vanilla Option Pricing
    :alt: Downloads
 
 
+.. image:: https://zenodo.org/badge/147844047.svg
+   :target: https://zenodo.org/badge/latestdoi/147844047
+   :alt: DOI
+
 A Python package implementing stochastic models to price financial options.\ :raw-html-m2r:`<br>`
 The theoretical background and a comprehensive explanation of models and their parameters
 can be found is the paper *\ `Fast calibration of two-factor models for energy option pricing <https://arxiv.org/abs/1809.03941>`_\ *
