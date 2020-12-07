@@ -8,7 +8,7 @@
 A Python package implementing stochastic models to price financial options.  
 The theoretical background and a comprehensive explanation of models and their parameters
 can be found is the paper *[Fast calibration of two-factor models for energy option pricing](https://arxiv.org/abs/1809.03941)*
-by Emanuele Fabbiani, Andrea Marziali and Giuseppe De Nicolao, freely available on arXiv.  
+by Emanuele Fabbiani, Andrea Marziali and Giuseppe De Nicolao, freely available on arXiv. A software paper describing the repository can be found in *[Software Impact](https://www.sciencedirect.com/science/article/pii/S2665963820300348)*. 
 
 ### Installing
 The preferred way to install the package is using pip,
